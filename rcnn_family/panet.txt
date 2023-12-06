@@ -1,0 +1,15 @@
+Panet
+
+1.是一个类似于fpn的neck network，他的改进（至少是在论文里）都是基于fpn实现的。
+从architecture来说，因为只care object dedection，adptive pooling之后的我就没看了，从fpn的 诸多 Pxx layer
+继续lateral connection 加上 3x3 conv opt实现了 multi-scale feature pyramid。
+
+2.需要注意的是，生成的new feature pyramid，虽然来源和fpn类似，但是是从fpn的结果（P layers）从上到下生成的，
+fpn由于需要传递high layer的高级semantic info，是用backbone诸多stage自上而下生成的fp。
+（至于为什么要这么做，论文里面的解释是，减少低级layer的fp 传递到高级layer时的损失。 
+panet是面向instance segmentation的网络，论文中说，低级的feature对于大尺度物体分割的边界有着非常明显的帮助。）
+
+3.同时，我觉得论文中非常misleading的内容在于，对于motovation part当中对于两条线的说明。
+    为了将低级的feature尽量在减少损失的情况下传递的高阶的layer，论文提出的“快速路 clean path”.
+我个人觉得，这里的意思并不是直接将P2的fp直接通过某些操作，作用到n5，而是，通过n5-n4-n3-n2的path，在不经过backbone
+一系列操作的情况下，能够直接作用到n5，(about 100+ layers of ops vs. less than 10 layers of ops). 
