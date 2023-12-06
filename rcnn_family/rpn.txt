@@ -1,0 +1,17 @@
+rpn 2017
+
+1.rpn 不是像resnet的backbone，基于backbone net,如resnet，对于backbone的输出的feature map，其中有很多的size都是一样的，把这样连续一堆size一致的称为一个stage,拿出每个stage的最后阶段的feature map(fp)。
+对于resnet，有5个stage，对应5个可能用到的feature map，去掉最底层的，因为需要占用的内存太大了。
+
+2.rpn的architecture 分为3个主要部分，第一是1记载的in-network的data flow，和一般的resnet并无二至，生成1记载的4个scale的fp，核心在于，增加了top-down以及lateral connection。
+其实，因为restnet用到的filter size 大多都是3x3，导致stage产生的fp的scale存在2的倍数关系。因此，可以看论文里的图，先是有一个1x1 的filter（作用主要是为了调整通道数）， 对于从top来的 fp， 因为size差了2的倍数，
+先需要进行upsampling， 可以采用插值啥的方法。然后和经过1x1的结果进行 element-wise 相加。对于相加的新fp，还要经过 channel_size 3x3 的卷几，一方面是为了所有scale的fp都能够相同的channel size，一方面说是为了减弱
+upsampling产生的混叠效应，这是什么意思呢，我也不知道。
+（为什么是element-wise 相加呢，对于良好的feature，取较大值，表示激活状态，是不是更加make sense一些？）
+
+3.提出rpn的motivation我总结是基于一个founding吧（虽然论文里面没有明说）：在backbone通过前馈产生的一堆 feature hierachy 里面，低层次的有的detail更多，比如，颜色，纹路，边缘，巴拉巴拉，高层次的语义特征更强一些。
+但是随意一次次的downsampling， 高层次的fp分辨率逐渐变低，所以，既要有detail ,又要有semantic features，就需要一些connection把这些feature用某些形式组合起来。so , here comes the rpn.
+
+4.代码实现，20231206，我发现pytorch的model zoo里面已经有了rpn的实现，所以，看看吧。
+
+5.rpn的训练，no idea

@@ -1,1 +1,3 @@
 # paper_records
+
+This is a repo recording the process of my personal deep-learning learning experience...
