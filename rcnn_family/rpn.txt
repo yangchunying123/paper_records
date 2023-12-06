@@ -15,3 +15,11 @@ upsampling产生的混叠效应，这是什么意思呢，我也不知道。
 4.代码实现，20231206，我发现pytorch的model zoo里面已经有了rpn的实现，所以，看看吧。
 
 5.rpn的训练，no idea
+
+==============new added================
+
+6.rpn主要是为了multi-scaled的input work的，常常和region proposal network（rpn）结合起来使用
+
+7.对于输入到 fpn的 proposal， fpn会根据proposal的size将其分配到pyramid不同的layer。
+具体而言，对于small proposals，会被assign到相对低层的pyramid layer。对于big proposal, 其感受野更大，会被assign
+到相对高阶的pyramid layer。
