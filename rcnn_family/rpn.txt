@@ -21,5 +21,5 @@ upsampling产生的混叠效应，这是什么意思呢，我也不知道。
 6.rpn主要是为了multi-scaled的input work的，常常和region proposal network（rpn）结合起来使用
 
 7.对于输入到 fpn的 proposal， fpn会根据proposal的size将其分配到pyramid不同的layer。
-具体而言，对于small proposals，会被assign到相对低层的pyramid layer。对于big proposal, 其感受野更大，会被assign
-到相对高阶的pyramid layer。
+P_k, 其中， k是在 pxx layer里面的具体的层数，可行的策略是， P_k = [k_0 + log2(pow(w*h, 0.5)/image_size)]; k_0是 layer num， 如采用resnet作为backbone， k_0 = 4。
+从这个公式可以看出，proposal的size越大， P_k 越大，位于金字塔的越上层。
