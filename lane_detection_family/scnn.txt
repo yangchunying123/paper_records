@@ -1,0 +1,16 @@
+another frustrating day reading cv papers. -_-
+
+scnn is a 'head' architecture that can be easily embeded into other neural network.
+
+1.相较于一层一层的卷conv,pooling,scnn提出 'slice by slice'的方式，这是什么意思呢。
+一种通用的做法是，在top hidden layer(i suppose 是last feature map)，针对 通道数，长，宽分别是C-H-W的适量，按照不同的方向进行切片，（可选的方向有向左右，向上下）。
+如对于切片结束的C*H的矢量，再加之conv操作。
+
+but， 我感觉好迷惑阿，对于每个slice的尺寸，如果用C个C*h的 filter进行卷积，卷完的size不一样，再怎么加到下一个slice上面呢。
+
+2.scnn 输出了一个dataset，包括各种相对difficult工况下的车道线的情况，如夜晚，遮挡，强光线，balabala
+
+3。scnn在2017年为什么能取得比较好的效果呢。论文说cnn能够较好的提取像素语义信息，但是对于跨行/列的像素的语气信息的利用不太足够。
+相邻行/列的像素，对于一些具有强形状先验但弱外观一致性的语义对象，如车道线，应该是有用的。
+
+
